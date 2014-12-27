@@ -15,8 +15,7 @@ import java.util.List;
  */
 public class WaitTimeCardViewAdapter extends RecyclerView.Adapter<WaitTimeCardViewAdapter.ViewHolder> {
 
-    // private String[] mDataset;
-    private List<String> mDataset;
+    private List<String> mDataset = new ArrayList<String>();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
@@ -29,13 +28,8 @@ public class WaitTimeCardViewAdapter extends RecyclerView.Adapter<WaitTimeCardVi
         return vh;
     }
 
-    public WaitTimeCardViewAdapter(List<String> myDataset) {
-        this.mDataset = myDataset;
-    }
-
     public void insertMoreRecords(String newData) {
         mDataset.add(newData);
-        notifyItemChanged(mDataset.size());
     }
 
     @Override

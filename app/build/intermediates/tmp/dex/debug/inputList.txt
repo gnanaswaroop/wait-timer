@@ -1,8 +1,8 @@
-D:\Google-Code-SVN\WaitTimer\app\build\intermediates\classes\debug
-D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-9e7d5fd1efe14eadc6b7c979449c9ebbffd4bf2b.jar
-D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-2bed818f0c33a1e470a04aadba686b4c28f1f4bf.jar
-D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-08882ed5b031348c2c03c405fb4225d3fc1d3975.jar
-D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-0717380287aedd4d0030740a347903f9947d29e9.jar
-D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-1dc51b004b74e421bf00eef3da19ccaeb8801dc0.jar
-D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-2b7fb3ff1ab4ab105552bc2c47d8c790400eb802.jar
-D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-f5174e878edda21e42ee73cbfe405528b82711c7.jar
+D:\Google-Code-SVN\wait-timer\app\build\intermediates\classes\debug
+D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-9e7d5fd1efe14eadc6b7c979449c9ebbffd4bf2b.jar
+D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-8b44910849ec024cfa11dc2af8828fb3c96668b2.jar
+D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-a1e277912e1edd18fb8c402592434c9fdf87b88d.jar
+D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-ac9d33707e9cb217dee592d549e5b97343785f95.jar
+D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-05fd8c458534a4ff71594f27aa4da59d5b047ec8.jar
+D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-9983c42297810da65fdac0acf0fd1cb4e8464961.jar
+D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-6d715999313b3d7f74422ff4220680cfdb566822.jar

@@ -2,53 +2,53 @@
 <items version="2" >
 
     <item
-        jar="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-08882ed5b031348c2c03c405fb4225d3fc1d3975.jar" />
-    </item>
-    <item
-        jar="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\classes.jar"
+        jar="D:\Google-Code-SVN\wait-timer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
-        <dex dex="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-f5174e878edda21e42ee73cbfe405528b82711c7.jar" />
+        <dex dex="D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-6d715999313b3d7f74422ff4220680cfdb566822.jar" />
     </item>
     <item
-        jar="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-1dc51b004b74e421bf00eef3da19ccaeb8801dc0.jar" />
-    </item>
-    <item
-        jar="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="D:\Google-Code-SVN\wait-timer\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-2b7fb3ff1ab4ab105552bc2c47d8c790400eb802.jar" />
+        <dex dex="D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-9983c42297810da65fdac0acf0fd1cb4e8464961.jar" />
     </item>
     <item
-        jar="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\classes.jar"
+        jar="D:\Google-Code-SVN\wait-timer\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
+        <dex dex="D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-8b44910849ec024cfa11dc2af8828fb3c96668b2.jar" />
+    </item>
+    <item
+        jar="D:\Google-Code-SVN\wait-timer\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-a1e277912e1edd18fb8c402592434c9fdf87b88d.jar" />
+    </item>
+    <item
+        jar="D:\Google-Code-SVN\wait-timer\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
-        <dex dex="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-0717380287aedd4d0030740a347903f9947d29e9.jar" />
+        <dex dex="D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-ac9d33707e9cb217dee592d549e5b97343785f95.jar" />
+    </item>
+    <item
+        jar="D:\Google-Code-SVN\wait-timer\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\classes-05fd8c458534a4ff71594f27aa4da59d5b047ec8.jar" />
     </item>
     <item
         jar="C:\android-sdk-uptodate\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-9e7d5fd1efe14eadc6b7c979449c9ebbffd4bf2b.jar" />
-    </item>
-    <item
-        jar="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
-        <dex dex="D:\Google-Code-SVN\WaitTimer\app\build\intermediates\pre-dexed\debug\classes-2bed818f0c33a1e470a04aadba686b4c28f1f4bf.jar" />
+        <dex dex="D:\Google-Code-SVN\wait-timer\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-9e7d5fd1efe14eadc6b7c979449c9ebbffd4bf2b.jar" />
     </item>
 
 </items>

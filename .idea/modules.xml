@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WaitTimer.iml" filepath="$PROJECT_DIR$/WaitTimer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wait-timer.iml" filepath="$PROJECT_DIR$/wait-timer.iml" />
     </modules>
   </component>
 </project>

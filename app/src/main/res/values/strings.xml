@@ -4,5 +4,7 @@
     <string name="app_name">WaitTimer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_start_geo_fence">Start</string>
+    <string name="action_stop_geo_fence">Stop</string>
 
 </resources>
