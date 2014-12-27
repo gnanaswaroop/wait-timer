@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\Google-Code-SVN\WaitTimer\app\src\androidTest\res"/><source path="D:\Google-Code-SVN\WaitTimer\app\build\generated\res\rs\test\debug"/><source path="D:\Google-Code-SVN\WaitTimer\app\build\generated\res\generated\test\debug"/></dataSet><mergedItems/></merger>
+<merger version="3"><dataSet config="main"><source path="D:\Google-Code-SVN\wait-timer\app\src\androidTest\res"/><source path="D:\Google-Code-SVN\wait-timer\app\build\generated\res\rs\test\debug"/><source path="D:\Google-Code-SVN\wait-timer\app\build\generated\res\generated\test\debug"/></dataSet><mergedItems/></merger>

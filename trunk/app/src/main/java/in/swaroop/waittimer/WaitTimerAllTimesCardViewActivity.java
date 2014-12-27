@@ -52,7 +52,7 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
 
     private GoogleApiClient mGoogleApiClient;
 
-//    private TextView mLocationView;
+    //    private TextView mLocationView;
     private PendingIntent mGeofencePendingIntent;
     private TempGeoFence currentActiveGeoFence;
 
@@ -60,13 +60,15 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
     private WaitTimeCardViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private static Activity currentActivity;
+    private Location lastKnownLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_timer_all_times_card_view);
 
-//        mLocationView = new TextView(this);
-//        setContentView(mLocationView);
+        currentActivity = this;
         mRecyclerView = (RecyclerView) findViewById(R.id.all_wait_times_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -77,9 +79,8 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-
         // specify an adapter (see also next example)
-        mAdapter = new WaitTimeCardViewAdapter(initDataset());
+        mAdapter = new WaitTimeCardViewAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
         servicesConnected();
@@ -100,10 +101,17 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
     @Override
     public void onLocationChanged(Location location) {
         Log.d(WaitTimerAllTimesCardViewActivity.TAG, "Location received: " + location.toString());
-//        mLocationView.setText("Location received: " + location.toString());
+
+        lastKnownLocation = location;
 
         // TODO: Remove/Unregister the previous GeoFence if a previous one exists.
         mAdapter.insertMoreRecords(location.toString());
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
 
         // and Disconnect the Listener
         if(currentActiveGeoFence == null) {
@@ -113,6 +121,13 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
 
     private void addGeoFence(Location location) {
 
+        if (currentActiveGeoFence != null) {
+            synchronized (currentActiveGeoFence) {
+                Toast.makeText(this, "Another active Geo Fence already running, Remove that first", Toast.LENGTH_LONG);
+                Log.d(TAG, "Another active Geo Fence already running, Remove that first");
+                return;
+            }
+        }
         mGeofencePendingIntent = getTransitionPendingIntent();
         currentActiveGeoFence = new TempGeoFence(location.getLatitude(), location.getLongitude());
 
@@ -129,6 +144,7 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
                     //                    if(mCallback != null){
                     //                        mCallback.onGeofencesRegisteredSuccessful();
                     //                    }
+                    Toast.makeText(currentActivity, "Geo Fence successfully registered", Toast.LENGTH_LONG);
                     Log.d(TAG, "Geo Fence has been successfully registered");
                 } else if (status.hasResolution()) {
                     // Google provides a way to fix the issue
@@ -146,12 +162,23 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
         });
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        // Connect the client.
-//        mGoogleApiClient.connect();
-//    }
+    public void removeLastActiveGeofence() {
+        if(currentActiveGeoFence == null) {
+            String msg = "No Active Geo Fence, Start one before you remove it";
+            Toast.makeText(this, msg, Toast.LENGTH_LONG);
+            Log.d(TAG, msg);
+            return;
+        }
+
+        synchronized (currentActiveGeoFence) {
+
+            String msg = "Active GeoFence successfully removed";
+            currentActiveGeoFence.removeGeoFence();
+            currentActiveGeoFence = null;
+            Toast.makeText(this, msg, Toast.LENGTH_LONG);
+            Log.d(TAG, msg);
+        }
+    }
 
     @Override
     protected void onStop() {
@@ -265,9 +292,12 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if(id == R.id.action_start_geo_fence) {
+            Toast.makeText(this, "New Geo Fence Event", Toast.LENGTH_LONG);
+            addGeoFence(lastKnownLocation);
+        } else if(id == R.id.action_stop_geo_fence) {
+            Toast.makeText(this, "Old Geo Fence Deleted", Toast.LENGTH_LONG);
+            removeLastActiveGeofence();
         }
 
         return super.onOptionsItemSelected(item);
@@ -360,19 +390,5 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
                 0,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private List<String> initDataset() {
-
-        int counter = 5;
-//        String[] mDataset = new String[counter];
-
-        List<String> initList = new ArrayList<String>();
-
-        for (int i = 0; i < counter; i++) {
-            initList.add("This is element #" + i);
-        }
-
-        return initList;
     }
 }
