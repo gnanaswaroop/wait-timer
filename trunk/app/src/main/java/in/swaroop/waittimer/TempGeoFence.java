@@ -1,8 +1,11 @@
 package in.swaroop.waittimer;
 
+import android.app.PendingIntent;
 import android.util.Log;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.UUID;
 
@@ -69,7 +72,7 @@ public class TempGeoFence {
         return currentGeoFenceInstance;
     }
 
-    public void removeGeoFence() {
-        // TODO Write
+    public void removeGeoFence(GoogleApiClient apiClient, PendingIntent intent) {
+        LocationServices.GeofencingApi.removeGeofences(apiClient, intent);
     }
-}
+;}

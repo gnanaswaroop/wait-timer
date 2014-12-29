@@ -9,13 +9,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by swaroop on 12/22/2014.
  */
 public class WaitTimeCardViewAdapter extends RecyclerView.Adapter<WaitTimeCardViewAdapter.ViewHolder> {
 
-    private List<String> mDataset = new ArrayList<String>();
+    //private List<String> mDataset = new ArrayList<String>();
+    private Stack<String> mDataset = new Stack<String>();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
@@ -29,14 +31,14 @@ public class WaitTimeCardViewAdapter extends RecyclerView.Adapter<WaitTimeCardVi
     }
 
     public void insertMoreRecords(String newData) {
-        mDataset.add(newData);
+        mDataset.push(newData);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mTextView.setText(mDataset.get(mDataset.size() - 1 - position));
     }
 
     @Override
