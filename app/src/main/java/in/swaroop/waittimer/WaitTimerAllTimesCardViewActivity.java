@@ -6,6 +6,8 @@ import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -24,11 +26,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,9 +63,12 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
     private RecyclerView mRecyclerView;
     private WaitTimeCardViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Geocoder mGeocoder;
 
     private static Activity currentActivity;
     private Location lastKnownLocation;
+
+    private static boolean IS_MOCK = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +90,63 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
         mAdapter = new WaitTimeCardViewAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
+        mGeocoder = new Geocoder(this);
+
         servicesConnected();
 
         Log.d(TAG, "on Create Complete");
+    }
+
+    private void setMockMode() {
+        LocationServices.FusedLocationApi.setMockMode(mGoogleApiClient, true);
+    }
+
+    private void startMockLocationThread() {
+
+        if(!mGoogleApiClient.isConnected()) {
+            Log.e(TAG, "mGoogleApiClient isn't connected yet");
+            return;
+        }
+
+        setMockMode();
+
+        final double home_lat = 17.473447;
+        final double home_long = 78.311912;
+
+        float accuracy = 5; // in meters
+
+        final double office_lat = 17.451167;
+        final double office_long = 78.371339;
+
+        new Thread("Mock Location Injector Thread - Runs every 15 seconds") {
+            public void run() {
+
+                int counter = 0;
+                while(true) {
+                    Log.d(TAG, "Mock Location Thread running");
+                    Location mockLocation = new Location("fnl");
+                    if(counter++ % 2 == 0) {
+                        mockLocation.setLatitude(home_lat);
+                        mockLocation.setLongitude(home_long);
+                        Log.d(TAG, "Mock Location - Home");
+                    } else {
+                        mockLocation.setLatitude(office_lat);
+                        mockLocation.setLongitude(office_long);
+                        Log.d(TAG, "Mock Location - Office");
+                    }
+
+                    mockLocation.setAccuracy(5);
+                    mockLocation.setTime(System.currentTimeMillis());
+                    LocationServices.FusedLocationApi.setMockLocation(mGoogleApiClient, mockLocation);
+
+                    try {
+                        Thread.sleep(5 * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
     }
 
     private void initiateGPSLogging() {
@@ -96,7 +157,12 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
                 .build();
 
         mGoogleApiClient.connect();
+
+        lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
     }
+
+    private static int counter;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -104,8 +170,31 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
 
         lastKnownLocation = location;
 
+        String addressForLocation = "";
+
+        try {
+            List<Address> items = mGeocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if(items != null && items.size() > 0) {
+                Address firstFoundAddress = items.get(0);
+
+                int addressCounter = 0;
+                String addressLine = "";
+                while((addressLine = firstFoundAddress.getAddressLine(addressCounter++)) != null) {
+                    if("".equals(addressForLocation)) {
+                        addressForLocation = addressLine;
+                    } else {
+                        addressForLocation += ", " + addressLine;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String latLongDetails = "(" + location.getLatitude() + ", " + location.getLongitude() + ")";
+
         // TODO: Remove/Unregister the previous GeoFence if a previous one exists.
-        mAdapter.insertMoreRecords(location.toString());
+        mAdapter.insertMoreRecords(counter ++ + " \n" + latLongDetails + "\n" + addressForLocation);
 
         runOnUiThread(new Runnable() {
             public void run() {
@@ -113,9 +202,13 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
             }
         });
 
-        // and Disconnect the Listener
+        // and Disconnect the Location Listener
         if(currentActiveGeoFence == null) {
             addGeoFence(location);
+
+//            if(IS_MOCK) {
+//                startMockLocationThread();
+//            }
         }
     }
 
@@ -123,11 +216,12 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
 
         if (currentActiveGeoFence != null) {
             synchronized (currentActiveGeoFence) {
-                Toast.makeText(this, "Another active Geo Fence already running, Remove that first", Toast.LENGTH_LONG);
+                Toast.makeText(this, "Another active Geo Fence already running, Remove that first", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Another active Geo Fence already running, Remove that first");
                 return;
             }
         }
+
         mGeofencePendingIntent = getTransitionPendingIntent();
         currentActiveGeoFence = new TempGeoFence(location.getLatitude(), location.getLongitude());
 
@@ -144,7 +238,7 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
                     //                    if(mCallback != null){
                     //                        mCallback.onGeofencesRegisteredSuccessful();
                     //                    }
-                    Toast.makeText(currentActivity, "Geo Fence successfully registered", Toast.LENGTH_LONG);
+                    Toast.makeText(currentActivity, "Geo Fence successfully registered", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Geo Fence has been successfully registered");
                 } else if (status.hasResolution()) {
                     // Google provides a way to fix the issue
@@ -165,7 +259,7 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
     public void removeLastActiveGeofence() {
         if(currentActiveGeoFence == null) {
             String msg = "No Active Geo Fence, Start one before you remove it";
-            Toast.makeText(this, msg, Toast.LENGTH_LONG);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             Log.d(TAG, msg);
             return;
         }
@@ -173,9 +267,9 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
         synchronized (currentActiveGeoFence) {
 
             String msg = "Active GeoFence successfully removed";
-            currentActiveGeoFence.removeGeoFence();
+            currentActiveGeoFence.removeGeoFence(mGoogleApiClient, mGeofencePendingIntent);
             currentActiveGeoFence = null;
-            Toast.makeText(this, msg, Toast.LENGTH_LONG);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             Log.d(TAG, msg);
         }
     }
@@ -186,6 +280,17 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
         mGoogleApiClient.disconnect();
         super.onStop();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // For some reason doing this gives an error "GoogleAPIClient is not connected yet"
+        //        LocationServices.FusedLocationApi.removeLocationUpdates(
+        //                mGoogleApiClient, this);
+
+        removeLastActiveGeofence();
+    }
+
 
 
     // Define a DialogFragment that displays the error dialog
@@ -248,7 +353,7 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
         // If Google Play services is available
         if (ConnectionResult.SUCCESS == resultCode) {
             // In debug mode, log the status
-            Log.d("Geofence Detection",
+            Log.d(TAG,
                     "Google Play services is available.");
             // Continue
             initiateGPSLogging();
@@ -293,10 +398,10 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
         int id = item.getItemId();
 
         if(id == R.id.action_start_geo_fence) {
-            Toast.makeText(this, "New Geo Fence Event", Toast.LENGTH_LONG);
+            Toast.makeText(currentActivity, "New Geo Fence Event", Toast.LENGTH_LONG).show();
             addGeoFence(lastKnownLocation);
         } else if(id == R.id.action_stop_geo_fence) {
-            Toast.makeText(this, "Old Geo Fence Deleted", Toast.LENGTH_LONG);
+            Toast.makeText(this, "Old Geo Fence Deleted", Toast.LENGTH_LONG).show();
             removeLastActiveGeofence();
         }
 
@@ -319,7 +424,6 @@ public class WaitTimerAllTimesCardViewActivity extends ActionBarActivity
 
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
-
     }
 
     @Override
